@@ -1,0 +1,30 @@
+GSAP Animations
+    ☐ ScrollTrigger
+    ☐ Utility
+    ☐ timeline
+    ☐ Observer
+    ☐ Text
+    ☐ SplitText
+    ☐ MotionPath
+    ☐ useGSAP
+    ☐ Flip
+
+
+    GSAP Basic
+        ✔ GSAP To  0 to x @done (12/25/2025, 8:57:12 AM)
+        ✔ From  x to 0 @done (12/25/2025, 8:57:18 AM)
+        ✔ FromTo  x to y @done (12/26/2025, 5:01:22 PM)
+        ☐ 
+
+
+# Tasks to do
+    ☐ Setup Aldovia theme
+    ☐ Typography
+    ☐ Color Palette
+    ☐ Button
+    ☐ Forms
+    ☐ Spacing System
+
+ npx gltfjsx public/models/Bubble_feather.glb -o src/models/Bubblefeather.jsx
+
+ npx gltfjsx public/models/Bubble_only.glb -o src/models/Bubbleonly.jsx
