@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router";
-import App from "../app/App";
+// import App from "../app/App";
 import TestPage from "../test/test";
 import Error404 from "../404";
 
@@ -7,7 +7,7 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<TestPage />} />
 
         {/* Test Routes  */}
         <Route path="/test" element={<TestPage />} />
