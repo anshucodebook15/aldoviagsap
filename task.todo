@@ -28,3 +28,23 @@ GSAP Animations
  npx gltfjsx public/models/Bubble_feather.glb -o src/models/Bubblefeather.jsx
 
  npx gltfjsx public/models/Bubble_only.glb -o src/models/Bubbleonly.jsx
+
+
+
+
+ # Tasks To do
+    ☐ lock screen orientation
+    ☐ 
+    
+
+
+
+
+
+
+
+
+
+
+
+

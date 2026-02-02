@@ -14,6 +14,7 @@ import { Canvas } from "@react-three/fiber";
 import Bubble from "./components/Bubble";
 import { OrbitControls } from "@react-three/drei";
 import MenuFrame from "./menuframe";
+// import TestCameraZoom from "./components/TestCameraZoom";
 
 gsap.registerPlugin(useGSAP);
 
@@ -23,12 +24,19 @@ const MainScene4 = () => {
 
   console.log("Feather Code", activeId);
 
+  // const bubbles = [
+  //   { id: 1, position: [-12, -14, -14] },
+  //   { id: 2, position: [-5, -10, -20] },
+  //   { id: 3, position: [0, -12, -4] }, // center hero
+  //   { id: 4, position: [5, -16, -24] },
+  //   { id: 5, position: [10, -14, -23] },
+  // ];
   const bubbles = [
-    { id: 1, position: [-10, 2, 6] },
-    { id: 2, position: [-5, 4, 7] },
-    { id: 3, position: [0, 5, 8] }, // center hero
-    { id: 4, position: [5, 4, 7] },
-    { id: 5, position: [10, 2, 6] },
+    { id: 1, position: [-12, 0, -14] },
+    { id: 2, position: [0, 2, -10] },
+    { id: 3, position: [11, -2, -10] }, // center hero
+    { id: 4, position: [-6, -8, -9] },
+    { id: 5, position: [4, -10, -12] },
   ];
 
   return (
@@ -36,7 +44,7 @@ const MainScene4 = () => {
       <div className="fixed inset-0 w-screen h-screen bg-black">
         <Canvas
           className="w-full h-full"
-          camera={{ position: [0, 8, 18], fov: 45 }}
+          camera={{ position: [0, 4, 18], fov: 45 }}
           onPointerMissed={() => {
             (setFocused(false), setActiveId(null));
           }}
@@ -94,7 +102,12 @@ const MainScene4 = () => {
 };
 
 const SceneTest = () => {
-  return <MainScene4 />;
+  return (
+    <>
+      {/* <TestCameraZoom /> */}
+      <MainScene4 />
+    </>
+  );
 };
 
 export default SceneTest;
