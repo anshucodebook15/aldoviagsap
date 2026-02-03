@@ -5,7 +5,7 @@
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import SceneTest from "./scene_4/main";
+import SceneTest from "./scene_5/main";
 
 gsap.registerPlugin(useGSAP);
 

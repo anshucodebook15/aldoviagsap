@@ -1,5 +1,6 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import * as THREE from "three";
 // import CanvasFrame from "./canvasframe";
 // import MenuFrame from "./menuframe";
 
@@ -11,26 +12,20 @@ import { useGSAP } from "@gsap/react";
 // import TestCameraZoom from "./components/TestCameraZoom";
 import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import Bubble from "./components/Bubble";
+
 // import { OrbitControls } from "@react-three/drei";
 import MenuFrame from "./menuframe";
+import FloatBubble from "./components/FloatBubble";
+import CameraFocusController from "./components/CameraController";
 // import TestCameraZoom from "./components/TestCameraZoom";
 
 gsap.registerPlugin(useGSAP);
 
-const MainScene4 = () => {
+const MainScene5 = () => {
   const [_focused, setFocused] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [focusTarget, setFocusTarget] = useState<THREE.Vector3 | null>(null);
 
-  console.log("Feather Code", activeId);
-
-  // const bubbles = [
-  //   { id: 1, position: [-12, -14, -14] },
-  //   { id: 2, position: [-5, -10, -20] },
-  //   { id: 3, position: [0, -12, -4] }, // center hero
-  //   { id: 4, position: [5, -16, -24] },
-  //   { id: 5, position: [10, -14, -23] },
-  // ];
   const bubbles = [
     { id: 1, position: [-12, 0, -14] },
     { id: 2, position: [0, 2, -10] },
@@ -39,6 +34,11 @@ const MainScene4 = () => {
     { id: 5, position: [4, -10, -12] },
   ];
 
+
+  console.log("Focus Target", focusTarget);
+  console.log("Active ID", activeId);
+  
+
   return (
     <div>
       <div className="fixed inset-0 w-screen h-screen bg-black">
@@ -46,7 +46,7 @@ const MainScene4 = () => {
           className="w-full h-full"
           camera={{ position: [0, 4, 18], fov: 45 }}
           onPointerMissed={() => {
-            (setFocused(false), setActiveId(null));
+            (setFocused(false), setActiveId(null), setFocusTarget(null));
           }}
         >
           {/* 🌫 Very soft ambient (just base visibility) */}
@@ -72,16 +72,18 @@ const MainScene4 = () => {
 
           {/* 🎥 Camera focus controller */}
           {/* <CameraController focused={focused} /> */}
+          <CameraFocusController target={focusTarget} enabled={!!focusTarget} />
 
           {/* 🪶 Drop your feathers here */}
 
           {bubbles.map((b) => (
-            <Bubble
+            <FloatBubble
               key={b.id}
               id={b.id}
               position={b.position as [number, number, number]}
               radius={5}
               setActiveId={setActiveId}
+              setFocusTarget={setFocusTarget} // 👈 ADD THIS
             />
           ))}
 
@@ -105,7 +107,7 @@ const SceneTest = () => {
   return (
     <>
       {/* <TestCameraZoom /> */}
-      <MainScene4 />
+      <MainScene5 />
     </>
   );
 };

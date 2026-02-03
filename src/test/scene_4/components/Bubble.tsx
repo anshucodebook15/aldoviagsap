@@ -4,6 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import gsap from "gsap";
 // import Droplets from "./Droplets";
 import FeatherMain from "./Feather";
+// import Droplets from "./Droplets";
 
 type Props = {
     position: [number, number, number];
@@ -114,7 +115,7 @@ const Bubble = ({ position, radius = 1, onBurst, id, setActiveId }: Props) => {
                 </group>
             </group>
 
-            {/* {droplets && (
+            {/* {_droplets && (
                 <Droplets
                     position={position}
                     count={500}
