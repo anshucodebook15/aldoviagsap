@@ -14,6 +14,10 @@ const CameraFocusController = ({ target, enabled }: Props) => {
     // 👇 this vector will be animated smoothly
     const lookAtRef = useRef(new THREE.Vector3());
 
+
+    console.log("Camera Direction", lookAtRef);
+    
+
     useEffect(() => {
         if (!enabled || !target) return;
 

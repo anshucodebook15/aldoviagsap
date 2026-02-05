@@ -14,7 +14,7 @@ import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 
 // import { OrbitControls } from "@react-three/drei";
-import MenuFrame from "./menuframe";
+import MenuFrame from "./components/menuframe";
 import FloatBubble from "./components/FloatBubble";
 import CameraFocusController from "./components/CameraController";
 // import TestCameraZoom from "./components/TestCameraZoom";
@@ -34,10 +34,37 @@ const MainScene5 = () => {
     { id: 5, position: [4, -10, -12] },
   ];
 
+  const handleResetScene = () => {
+    console.log("Reset Home scene");
+  };
 
   console.log("Focus Target", focusTarget);
   console.log("Active ID", activeId);
-  
+
+  const Lights = () => {
+    return (
+      <>
+        {/* 🌫 Very soft ambient (just base visibility) */}
+        <ambientLight intensity={0.7} />
+
+        {/* ☀ KEY light — strong, angled */}
+        <directionalLight position={[-8, 12, 8]} intensity={4} castShadow />
+
+        {/* ✨ RIM light — THIS MAKES THE EDGE GLOW */}
+        <spotLight
+          position={[0, 6, -10]}
+          intensity={5}
+          angle={0.35}
+          penumbra={1}
+          color="#cce6ff"
+        />
+
+        {/* 💎 Side crystal highlights */}
+        <pointLight position={[6, 2, 4]} intensity={0.9} color="#ffffff" />
+        <pointLight position={[-6, -2, -4]} intensity={0.6} color="#bcdcff" />
+      </>
+    );
+  };
 
   return (
     <div>
@@ -48,34 +75,18 @@ const MainScene5 = () => {
           onPointerMissed={() => {
             (setFocused(false), setActiveId(null), setFocusTarget(null));
           }}
+
+
         >
-          {/* 🌫 Very soft ambient (just base visibility) */}
-          <ambientLight intensity={0.7} />
-
-          {/* ☀ KEY light — strong, angled */}
-          <directionalLight position={[-8, 12, 8]} intensity={4} castShadow />
-
-          {/* ✨ RIM light — THIS MAKES THE EDGE GLOW */}
-          <spotLight
-            position={[0, 6, -10]}
-            intensity={5}
-            angle={0.35}
-            penumbra={1}
-            color="#cce6ff"
-          />
-
-          {/* 💎 Side crystal highlights */}
-          <pointLight position={[6, 2, 4]} intensity={0.9} color="#ffffff" />
-          <pointLight position={[-6, -2, -4]} intensity={0.6} color="#bcdcff" />
+          {/**Lights On to Objects */}
+          <Lights />
 
           {/* 🧭 Controls (locked zoom for cinematic feel) */}
 
           {/* 🎥 Camera focus controller */}
-          {/* <CameraController focused={focused} /> */}
           <CameraFocusController target={focusTarget} enabled={!!focusTarget} />
 
           {/* 🪶 Drop your feathers here */}
-
           {bubbles.map((b) => (
             <FloatBubble
               key={b.id}
@@ -98,6 +109,12 @@ const MainScene5 = () => {
       {/* 🧭 UI LAYER (only buttons clickable) */}
       <div className="fixed top-0 left-0 right-0 z-10 pointer-events-none">
         <MenuFrame />
+      </div>
+
+      <div className="gallery_slider fixed bottom-40 left-10 bg-gray-900 z-10 ">
+        <button className="btn p-4 cursor-pointer" onClick={handleResetScene}>
+          click{" "}
+        </button>
       </div>
     </div>
   );

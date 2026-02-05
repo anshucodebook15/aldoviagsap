@@ -6,6 +6,7 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import SceneTest from "./scene_5/main";
+// import GrabRotateScene from "./scene_5/test/GrabTestscene";
 
 gsap.registerPlugin(useGSAP);
 
@@ -19,8 +20,8 @@ const TestPage = () => {
 
       <SceneTest />
 
-
-      {/* <CrystalBubbleCanvas /> */}
+      {/* <TestCameraZoom /> */}
+      {/* <GrabRotateScene /> */}
     </div>
   );
 };

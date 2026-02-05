@@ -1,4 +1,4 @@
-import { useAssets } from "../../app/hooks/useAssets";
+import { useAssets } from "../../../app/hooks/useAssets";
 
 
 const Logo_top = () => {
