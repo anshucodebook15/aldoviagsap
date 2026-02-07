@@ -53,18 +53,15 @@ const MenuFrame = ({ masterTl }: any) => {
     if (!masterTl?.current || !frameRef.current) return;
 
     const ctx = gsap.context(() => {
-      // initial states
       gsap.set(".logo-image", {
         autoAlpha: 0,
         y: 6,
         scale: 0.98,
       });
 
-      // 🔥 logo swap after logo reveal
       masterTl.current
         .add("menu-logo-swap", "logo-reveal-end+=0.2")
 
-        // text logo out
         .to(
           ".logo-text",
           {
@@ -77,7 +74,6 @@ const MenuFrame = ({ masterTl }: any) => {
           "menu-logo-swap",
         )
 
-        // svg logo in
         .to(
           ".logo-image",
           {
@@ -89,19 +85,12 @@ const MenuFrame = ({ masterTl }: any) => {
             ease: "power2.out",
           },
           "menu-logo-swap+=0.1",
-        )  // ✅ ADD THIS
-        // .add("menu-complete");
-
-        .add(() => {
-          window.dispatchEvent(new Event("menu-complete"));
-        });
-
-
-
+        );
     }, frameRef);
 
     return () => ctx.revert();
   }, []);
+
 
   return (
     <div
