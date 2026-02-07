@@ -31,6 +31,7 @@ const HeroVideo = ({ masterTl }: any) => {
 
     // Play video
     tl.add(() => {
+      video.volume = 1;
       video.play();
     });
 
