@@ -4,70 +4,122 @@ import * as THREE from "three";
 import gsap from "gsap";
 
 type Props = {
-    target: THREE.Vector3 | null;
-    enabled: boolean;
+  target: THREE.Vector3 | null;
+  enabled: boolean;
 };
 
 const CameraFocusController = ({ target, enabled }: Props) => {
-    const { camera } = useThree();
+  const { camera } = useThree();
 
-    // 👇 this vector will be animated smoothly
-    const lookAtRef = useRef(new THREE.Vector3());
+  const lookAtRef = useRef(new THREE.Vector3());
+  const defaultPos = useRef<THREE.Vector3 | null>(null);
+  const defaultLookAt = useRef<THREE.Vector3 | null>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
 
+  /* ----------------------------------------
+   * Save default camera state ONCE
+   * ---------------------------------------- */
+  useEffect(() => {
+    if (!defaultPos.current) {
+      defaultPos.current = camera.position.clone();
 
-    console.log("Camera Direction", lookAtRef);
-    
+      camera.getWorldDirection(lookAtRef.current);
+      defaultLookAt.current = lookAtRef.current
+        .clone()
+        .multiplyScalar(10)
+        .add(camera.position);
+    }
+  }, []);
 
-    useEffect(() => {
-        if (!enabled || !target) return;
+  /* ----------------------------------------
+   * Zoom IN to target
+   * ---------------------------------------- */
+  useEffect(() => {
+    if (!enabled || !target) return;
 
-        // Starting lookAt = where camera is currently facing
-        camera.getWorldDirection(lookAtRef.current);
-        lookAtRef.current.multiplyScalar(10).add(camera.position);
+    tlRef.current?.kill();
 
-        // Direction for zoom
-        const dir = new THREE.Vector3()
-            .subVectors(camera.position, target)
-            .normalize();
+    // Current look direction
+    camera.getWorldDirection(lookAtRef.current);
+    lookAtRef.current.multiplyScalar(10).add(camera.position);
 
-        const distance = 12;
-        const newPos = target.clone().add(dir.multiplyScalar(distance));
+    const dir = new THREE.Vector3()
+      .subVectors(camera.position, target)
+      .normalize();
 
-        const tl = gsap.timeline({
-            defaults: { ease: "power3.inOut", duration: 1.2 },
-        });
+    const distance = 12;
+    const newPos = target.clone().add(dir.multiplyScalar(distance));
 
-        // 1️⃣ Move camera
-        tl.to(
-            camera.position,
-            {
-                x: newPos.x,
-                y: newPos.y,
-                z: newPos.z,
-            },
-            0,
-        );
+    tlRef.current = gsap.timeline({
+      defaults: { ease: "power3.inOut", duration: 1.2 },
+    });
 
-        // 2️⃣ Move lookAt target smoothly
-        tl.to(
-            lookAtRef.current,
-            {
-                x: target.x,
-                y: target.y,
-                z: target.z,
-                onUpdate: () => {
-                    camera.lookAt(lookAtRef.current);
-                },
-            },
-            0,
-        );
+    tlRef.current
+      .to(
+        camera.position,
+        {
+          x: newPos.x,
+          y: newPos.y,
+          z: newPos.z,
+        },
+        0,
+      )
+      .to(
+        lookAtRef.current,
+        {
+          x: target.x,
+          y: target.y,
+          z: target.z,
+          onUpdate: () => camera.lookAt(lookAtRef.current),
+        },
+        0,
+      );
 
-        return () => {
-            tl.kill();
-        };
-    }, [target, enabled]);
+    return () => {
+      tlRef.current?.kill();
+    };
+  }, [enabled, target]);
 
-    return null;
+  /* ----------------------------------------
+   * Zoom OUT (RESET)
+   * ---------------------------------------- */
+  useEffect(() => {
+    if (enabled) return;
+    if (!defaultPos.current || !defaultLookAt.current) return;
+
+    tlRef.current?.kill();
+
+    tlRef.current = gsap.timeline({
+      defaults: { ease: "power3.inOut", duration: 1 },
+    });
+
+    tlRef.current
+      .to(
+        camera.position,
+        {
+          x: defaultPos.current.x,
+          y: defaultPos.current.y,
+          z: defaultPos.current.z,
+        },
+        0,
+      )
+      .to(
+        lookAtRef.current,
+        {
+          x: defaultLookAt.current.x,
+          y: defaultLookAt.current.y,
+          z: defaultLookAt.current.z,
+          onUpdate: () => camera.lookAt(lookAtRef.current),
+        },
+        0,
+      );
+
+    return () => {
+      tlRef.current?.kill();
+    };
+  }, [enabled]);
+
+  return null;
 };
 
 export default CameraFocusController;

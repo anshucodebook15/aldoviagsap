@@ -1,30 +1,20 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import * as THREE from "three";
-// import CanvasFrame from "./canvasframe";
-// import MenuFrame from "./menuframe";
-
-// import { Canvas } from "@react-three/fiber";
-
-// import { OrbitControls } from "@react-three/drei";
-// import { useState } from "react";
-// import Bubble from "./components/Bubble";
-// import TestCameraZoom from "./components/TestCameraZoom";
 import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 
-// import { OrbitControls } from "@react-three/drei";
 import MenuFrame from "./components/menuframe";
-import FloatBubble from "./components/FloatBubble";
 import CameraFocusController from "./components/CameraController";
-// import TestCameraZoom from "./components/TestCameraZoom";
+import FloatBubble from "./controlled/FloatBubble/FloatBubble";
 
 gsap.registerPlugin(useGSAP);
 
-const MainScene5 = () => {
+const MainScene = () => {
   const [_focused, setFocused] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [focusTarget, setFocusTarget] = useState<THREE.Vector3 | null>(null);
+  const [resetSignal, setResetSignal] = useState(0);
 
   const bubbles = [
     { id: 1, position: [-12, 0, -14] },
@@ -34,9 +24,15 @@ const MainScene5 = () => {
     { id: 5, position: [4, -10, -12] },
   ];
 
+
+
   const handleResetScene = () => {
-    console.log("Reset Home scene");
+    setActiveId(null);
+    setFocusTarget(null);   // 🎥 camera zoom out
+    setResetSignal(v => v + 1); // 🔄 trigger reset everywhere
   };
+
+
 
   console.log("Focus Target", focusTarget);
   console.log("Active ID", activeId);
@@ -75,8 +71,6 @@ const MainScene5 = () => {
           onPointerMissed={() => {
             (setFocused(false), setActiveId(null), setFocusTarget(null));
           }}
-
-
         >
           {/**Lights On to Objects */}
           <Lights />
@@ -93,8 +87,9 @@ const MainScene5 = () => {
               id={b.id}
               position={b.position as [number, number, number]}
               radius={5}
-              setActiveId={setActiveId}
+              setActiveId={(id) => setActiveId(String(id))}
               setFocusTarget={setFocusTarget} // 👈 ADD THIS
+              resetSignal={resetSignal}   // 👈 NEW
             />
           ))}
 
@@ -111,9 +106,12 @@ const MainScene5 = () => {
         <MenuFrame />
       </div>
 
-      <div className="gallery_slider fixed bottom-40 left-10 bg-gray-900 z-10 ">
-        <button className="btn p-4 cursor-pointer" onClick={handleResetScene}>
+      <div className="gallery_slider fixed bottom-40 left-10  z-10 ">
+        {/* <button className=" bg-gray-900 cursor-pointer" onClick={handleResetScene}>
           click{" "}
+        </button> */}
+        <button className="close border p-4" onClick={handleResetScene}>
+          Close feather
         </button>
       </div>
     </div>
@@ -124,7 +122,7 @@ const SceneTest = () => {
   return (
     <>
       {/* <TestCameraZoom /> */}
-      <MainScene5 />
+      <MainScene />
     </>
   );
 };
