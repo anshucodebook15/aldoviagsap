@@ -5,6 +5,8 @@ import gsap from "gsap";
 // import LogoReveal from "./Sections/LogoReveal/v2/LogoReveal";
 import MenuFrame from "./components/MenuFrame/v2/MenuFrame";
 import BubbleFeather_Interaction from "./Sections/BubbleFeathersInteraction/v3/BubbleFeather_Interaction";
+import { HeroVideo } from "./Sections/HeroVideo";
+import LogoReveal from "./Sections/LogoReveal/LogoReveal";
 // import BubbleFeather_Interaction from "./Sections/BubbleFeathersInteraction/BubbleFeather_Interaction";
 // import { HeroVideo } from "./Sections/HeroVideo";
 
@@ -32,8 +34,10 @@ const Main = () => {
       </div>
 
       <div id="landing-page">
-        {/* <HeroVideo masterTl={masterTl} />
-        <LogoReveal masterTl={masterTl} /> */}
+        <HeroVideo masterTl={masterTl} />
+        <LogoReveal masterTl={masterTl} />
+
+        
         <BubbleFeather_Interaction masterTl={masterTl} />
 
         {/* Bubble mounts AFTER MenuFrame animation */}

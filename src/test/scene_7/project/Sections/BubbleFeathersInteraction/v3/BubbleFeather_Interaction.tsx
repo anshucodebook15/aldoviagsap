@@ -5,6 +5,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import CameraFocusController from "../../../components/CameraFocusController/CameraFocusController";
 import FloatBubble from "../../../components/FloatBubble/FloatBubble";
+import FeatherDragDrop from "../../../../test/FeatherDrag";
 
 gsap.registerPlugin(useGSAP);
 
@@ -139,8 +140,10 @@ const BubbleFeather_Interaction = ({ masterTl }: any) => {
               enabled={!!focusTarget}
             />
 
+            <FeatherDragDrop />
+
             {/* 🪶 Drop your feathers here */}
-            {bubbles.map((b) => (
+            {/* {bubbles.map((b) => (
               <FloatBubble
                 key={b.id}
                 id={b.id}
@@ -152,7 +155,7 @@ const BubbleFeather_Interaction = ({ masterTl }: any) => {
                 // setFocusTarget={setFocusTarget} // 👈 ADD THIS
                 resetSignal={resetSignal} // 👈 NEW
               />
-            ))}
+            ))} */}
 
             {/* <OrbitControls
             enableZoom={false}
