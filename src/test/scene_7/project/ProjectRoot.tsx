@@ -7,9 +7,11 @@ gsap.registerPlugin(useGSAP);
 
 const ProjectRoot = () => {
     return (
-        <LoaderProvider>
+        <>
+         <LoaderProvider>
             <App />
         </LoaderProvider>
+        </>
     );
 };
 

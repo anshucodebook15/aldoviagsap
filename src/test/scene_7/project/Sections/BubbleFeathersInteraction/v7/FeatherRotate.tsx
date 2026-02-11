@@ -11,14 +11,27 @@ type Props = {
 const FeatherRotate = ({ id, resetSignal }: Props) => {
   const groupRef = useRef<THREE.Group>(null!);
   const isDragging = useRef(false);
-  const targetRot = useRef({ x: 0, y: 0 });
 
   console.log("id", id);
 
-  // useGLTF("./models/feather_2.glb");
+  // 👉 drag rotation (unchanged)
+  const targetRot = useRef({ x: 0, y: 0 });
+
+  // 👉 RANDOM BASE ROTATION (NEW)
+  const baseRot = useRef({ x: 0, y: 0, z: 0 });
 
   const { nodes, materials } = useGLTF("./models/featherkb.glb");
 
+  // 🔥 generate random orientation ONCE
+  useEffect(() => {
+    baseRot.current = {
+      x: THREE.MathUtils.randFloat(-0.4, 0.4),
+      y: THREE.MathUtils.randFloat(-Math.PI, Math.PI),
+      z: THREE.MathUtils.randFloat(-0.6, 0.6),
+    };
+  }, []);
+
+  // reset ONLY drag rotation
   useEffect(() => {
     targetRot.current.x = 0;
     targetRot.current.y = 0;
@@ -48,24 +61,29 @@ const FeatherRotate = ({ id, resetSignal }: Props) => {
     );
   };
 
+  // ✅ APPLY base + drag rotation
   useFrame(() => {
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(
-      groupRef.current.rotation.x,
-      targetRot.current.x,
+    const g = groupRef.current;
+
+    g.rotation.x = THREE.MathUtils.lerp(
+      g.rotation.x,
+      baseRot.current.x + targetRot.current.x,
       0.15,
     );
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(
-      groupRef.current.rotation.y,
-      targetRot.current.y,
+
+    g.rotation.y = THREE.MathUtils.lerp(
+      g.rotation.y,
+      baseRot.current.y + targetRot.current.y,
       0.15,
     );
+
+    g.rotation.z = THREE.MathUtils.lerp(g.rotation.z, baseRot.current.z, 0.15);
   });
 
   return (
     <group
       ref={groupRef}
-      // scale={[1.8, 1.8, 1.8]}
-      scale={[2.5, 2.5, 2.5]}
+      scale={[5, 5, 5]}
       position={[0, -0.3, 0]}
       onPointerDown={onDown}
       onPointerUp={onUp}
@@ -77,17 +95,11 @@ const FeatherRotate = ({ id, resetSignal }: Props) => {
       }}
       onPointerOut={() => (document.body.style.cursor = "default")}
     >
-      {/* TEMP BOX — replace with Feather mesh */}
       <mesh
         geometry={(nodes.Mesh0 as THREE.Mesh).geometry}
         material={materials.BakedMaterial}
         position={[0.002, -0.002, 0]}
       />
-
-      {/* <mesh>
-        <boxGeometry args={[2, 2, 2]} />
-        <meshStandardMaterial color="#4cc9f0" />
-      </mesh> */}
     </group>
   );
 };

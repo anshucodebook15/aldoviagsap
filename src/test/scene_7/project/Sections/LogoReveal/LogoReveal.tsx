@@ -1,11 +1,11 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 const LogoReveal = ({ masterTl }: any) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!masterTl?.current || !sectionRef.current || !logoRef.current) return;
 
     const tl = gsap.timeline();

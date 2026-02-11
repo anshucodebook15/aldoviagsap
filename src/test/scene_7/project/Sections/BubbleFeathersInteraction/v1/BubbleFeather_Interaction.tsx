@@ -3,8 +3,9 @@ import { useGSAP } from "@gsap/react";
 import * as THREE from "three";
 import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import CameraFocusController from "../../components/CameraFocusController/CameraFocusController";
-import FloatBubble from "../../components/FloatBubble/FloatBubble";
+import CameraFocusController from "../../../components/CameraFocusController/CameraFocusController";
+import FloatBubble from "../../../components/FloatBubble/FloatBubble";
+import { Environment } from "@react-three/drei";
 
 // import MenuFrame from "./components/menuframe";
 // import CameraFocusController from "./components/CameraController";
@@ -32,30 +33,30 @@ const Scene = () => {
     setResetSignal((v) => v + 1); // 🔄 trigger reset everywhere
   };
 
-  const Lights = () => {
-    return (
-      <>
-        {/* 🌫 Very soft ambient (just base visibility) */}
-        <ambientLight intensity={0.7} />
+  // const Lights = () => {
+  //   return (
+  //     <>
+  //       {/* 🌫 Very soft ambient (just base visibility) */}
+  //       <ambientLight intensity={0.7} />
 
-        {/* ☀ KEY light — strong, angled */}
-        <directionalLight position={[-8, 12, 8]} intensity={4} castShadow />
+  //       {/* ☀ KEY light — strong, angled */}
+  //       <directionalLight position={[-8, 12, 8]} intensity={4} castShadow />
 
-        {/* ✨ RIM light — THIS MAKES THE EDGE GLOW */}
-        <spotLight
-          position={[0, 6, -10]}
-          intensity={5}
-          angle={0.35}
-          penumbra={1}
-          color="#cce6ff"
-        />
+  //       {/* ✨ RIM light — THIS MAKES THE EDGE GLOW */}
+  //       <spotLight
+  //         position={[0, 6, -10]}
+  //         intensity={5}
+  //         angle={0.35}
+  //         penumbra={1}
+  //         color="#cce6ff"
+  //       />
 
-        {/* 💎 Side crystal highlights */}
-        <pointLight position={[6, 2, 4]} intensity={0.9} color="#ffffff" />
-        <pointLight position={[-6, -2, -4]} intensity={0.6} color="#bcdcff" />
-      </>
-    );
-  };
+  //       {/* 💎 Side crystal highlights */}
+  //       <pointLight position={[6, 2, 4]} intensity={0.9} color="#ffffff" />
+  //       <pointLight position={[-6, -2, -4]} intensity={0.6} color="#bcdcff" />
+  //     </>
+  //   );
+  // };
 
   return (
     <div>
@@ -67,8 +68,27 @@ const Scene = () => {
             (setFocused(false), setActiveId(null), setFocusTarget(null));
           }}
         >
+          {/* 🌍 ENVIRONMENT (THIS IS HUGE FOR CRYSTAL SHINE) */}
+          <Environment preset="studio" />
           {/**Lights On to Objects */}
-          <Lights />
+          {/* 🌫 Very soft ambient (just base visibility) */}
+          <ambientLight intensity={0.7} />
+
+          {/* ☀ KEY light — strong, angled */}
+          <directionalLight position={[-8, 12, 8]} intensity={4} castShadow />
+
+          {/* ✨ RIM light — THIS MAKES THE EDGE GLOW */}
+          <spotLight
+            position={[0, 6, -10]}
+            intensity={5}
+            angle={0.35}
+            penumbra={1}
+            color="#cce6ff"
+          />
+
+          {/* 💎 Side crystal highlights */}
+          <pointLight position={[6, 2, 4]} intensity={0.9} color="#ffffff" />
+          <pointLight position={[-6, -2, -4]} intensity={0.6} color="#bcdcff" />
 
           {/* 🧭 Controls (locked zoom for cinematic feel) */}
 

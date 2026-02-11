@@ -11,7 +11,6 @@ export function useBubbleController(
 ) {
   const groupRef = useRef<THREE.Group>(null!);
   const bubbleMeshRef = useRef<THREE.Mesh>(null!);
-
   const [burst, setBurst] = useState(false);
 
   /* ---------------- DROP IN ---------------- */
@@ -308,6 +307,62 @@ export function useBubbleController(
 
     setBurst(false);
   }, [resetSignal]);
+
+  //   useEffect(() => {
+  //   const group = groupRef.current;
+  //   const mesh = bubbleMeshRef.current;
+  //   if (!group || !mesh) return;
+
+  //   // 👉 STOP physics
+  //   physics.current.mode = "recall";
+
+  //   // Make sure bubble is visible
+  //   mesh.visible = true;
+
+  //   // Fade bubble back in
+  //   gsap.to(mesh.material as any, {
+  //     opacity: 0.14,
+  //     duration: 0.35,
+  //     ease: "power2.out",
+  //   });
+
+  //   // 🎯 PULL FEATHER INTO BUBBLE CENTER
+  //   gsap.to(group.position, {
+  //     x: position[0],
+  //     y: position[1],
+  //     z: position[2],
+  //     duration: 0.8,
+  //     ease: "power3.out",
+  //   });
+
+  //   // 🪶 SOFT ROTATION RESET (feather aligns naturally)
+  //   gsap.to(group.rotation, {
+  //     x: 0,
+  //     y: 0,
+  //     z: 0,
+  //     duration: 0.6,
+  //     ease: "power2.out",
+  //   });
+
+  //   // 🫧 SCALE SETTLE (inside bubble)
+  //   gsap.to(group.scale, {
+  //     x: 1,
+  //     y: 1,
+  //     z: 1,
+  //     duration: 0.45,
+  //     ease: "power2.out",
+  //   });
+
+  //   // ✅ After recall completes → idle state
+  //   gsap.delayedCall(0.85, () => {
+  //     physics.current.mode = "idle";
+  //     physics.current.y = position[1];
+  //     physics.current.time = 0;
+  //     physics.current.landed = true;
+  //   });
+
+  //   setBurst(false);
+  // }, [resetSignal]);
 
   /* ---------------- CLEANUP ---------------- */
   useEffect(() => {

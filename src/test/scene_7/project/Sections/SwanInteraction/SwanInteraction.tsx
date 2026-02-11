@@ -12,44 +12,14 @@ const SwanInteraction = ({ masterTl }: Props) => {
   const [stage, setStage] = useState<0 | 1 | 2>(0);
   const isPlaying = useRef(false);
 
-  /* ---------------- SWAN INTRO (MASTER TIMELINE) ---------------- */
-
-  // useLayoutEffect(() => {
-  //   if (!masterTl.current || !containerRef.current) return;
-
-  //   // Initial hidden state
-  //   gsap.set(containerRef.current, {
-  //     autoAlpha: 0,
-  //   });
-
-  //   const tl = gsap.timeline({
-  //     paused: true,
-  //     onComplete: () => {
-  //       // ⛔ STOP master timeline at swan
-  //       masterTl.current?.pause();
-  //     },
-  //   });
-
-  //   // Fade-in ONLY (cinematic)
-  //   tl.to(containerRef.current, {
-  //     autoAlpha: 1,
-  //     duration: 1.2,
-  //     ease: "power2.out",
-  //   });
-
-  //   // 🔗 Attach strictly after menu
-  //   masterTl.current.add(tl, "menu-end");
-  // }, []);
-
   useLayoutEffect(() => {
     if (!masterTl.current || !containerRef.current) return;
 
-    // Initial hidden state
     gsap.set(containerRef.current, { autoAlpha: 0 });
 
     const tl = gsap.timeline({
       onComplete: () => {
-        // ⛔ Pause master ONLY after swan fades in
+        // pause master after swan reveal
         masterTl.current?.pause();
       },
     });
@@ -60,7 +30,9 @@ const SwanInteraction = ({ masterTl }: Props) => {
       ease: "power2.out",
     });
 
-    // 🔗 Attach after menu animation
+    // 🔖 label this clearly
+    tl.add("swan-visible");
+
     masterTl.current.add(tl, "menu-end");
   }, []);
 
@@ -69,9 +41,8 @@ const SwanInteraction = ({ masterTl }: Props) => {
   useLayoutEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
     video.pause();
-    video.currentTime = 3; // sitting pose
+    video.currentTime = 1; // sitting pose
   }, []);
 
   /* ---------------- VIDEO SEGMENT PLAYER ---------------- */
@@ -97,13 +68,12 @@ const SwanInteraction = ({ masterTl }: Props) => {
   };
 
   /* ---------------- USER INTERACTION ---------------- */
-
   const handleClick = () => {
     if (isPlaying.current) return;
 
     // 🦢 Ready to fly (3 → 5)
     if (stage === 0) {
-      playSegment(3, 5, () => setStage(1));
+      playSegment(2, 5, () => setStage(1));
     }
 
     // 🦢 Takeoff (5 → 10)
@@ -118,9 +88,20 @@ const SwanInteraction = ({ masterTl }: Props) => {
           ease: "power2.inOut",
           onComplete: () => {
             // ▶️ Resume master timeline
+            // masterTl.current?.play();
+
+            masterTl.current?.add("swan-complete");
             masterTl.current?.play();
           },
         });
+
+        // masterTl.current?.to(containerRef.current, {
+        //   autoAlpha: 0,
+        //   duration: 1,
+        //   ease: "power2.inOut",
+        // });
+
+        // masterTl.current?.play();
       });
     }
   };
@@ -162,3 +143,55 @@ const SwanInteraction = ({ masterTl }: Props) => {
 };
 
 export default SwanInteraction;
+
+/* ---------------- SWAN INTRO (MASTER TIMELINE) ---------------- */
+
+// useLayoutEffect(() => {
+//   if (!masterTl.current || !containerRef.current) return;
+
+//   // Initial hidden state
+//   gsap.set(containerRef.current, {
+//     autoAlpha: 0,
+//   });
+
+//   const tl = gsap.timeline({
+//     paused: true,
+//     onComplete: () => {
+//       // ⛔ STOP master timeline at swan
+//       masterTl.current?.pause();
+//     },
+//   });
+
+//   // Fade-in ONLY (cinematic)
+//   tl.to(containerRef.current, {
+//     autoAlpha: 1,
+//     duration: 1.2,
+//     ease: "power2.out",
+//   });
+
+//   // 🔗 Attach strictly after menu
+//   masterTl.current.add(tl, "menu-end");
+// }, []);
+
+// useLayoutEffect(() => {
+//   if (!masterTl.current || !containerRef.current) return;
+
+//   // Initial hidden state
+//   gsap.set(containerRef.current, { autoAlpha: 0 });
+
+//   const tl = gsap.timeline({
+//     onComplete: () => {
+//       // ⛔ Pause master ONLY after swan fades in
+//       masterTl.current?.pause();
+//     },
+//   });
+
+//   tl.to(containerRef.current, {
+//     autoAlpha: 1,
+//     duration: 1.2,
+//     ease: "power2.out",
+//   });
+
+//   // 🔗 Attach after menu animation
+//   masterTl.current.add(tl, "menu-end");
+// }, []);

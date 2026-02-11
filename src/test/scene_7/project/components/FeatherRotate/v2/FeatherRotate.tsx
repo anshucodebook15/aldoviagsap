@@ -13,7 +13,6 @@ const FeatherRotate = ({ id, resetSignal }: Props) => {
   const isDragging = useRef(false);
 
   console.log("id", id);
-  
 
   // 👉 drag rotation (unchanged)
   const targetRot = useRef({ x: 0, y: 0 });
@@ -78,11 +77,7 @@ const FeatherRotate = ({ id, resetSignal }: Props) => {
       0.15,
     );
 
-    g.rotation.z = THREE.MathUtils.lerp(
-      g.rotation.z,
-      baseRot.current.z,
-      0.15,
-    );
+    g.rotation.z = THREE.MathUtils.lerp(g.rotation.z, baseRot.current.z, 0.15);
   });
 
   return (

@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import React from "react";
-import { useBubbleController } from "./useBubbleController";
+// import { useBubbleController } from "./useBubbleController";
 import FeatherRotate from "../FeatherRotate/FeatherRotate";
+import { useBubbleController } from "./v2/useBubbleController";
 // import FeatherRotate from "./FeatherRotate";
 // import { useBubbleController } from "../hooks/useBubbleController";
 
@@ -38,14 +39,11 @@ const FloatBubble = ({
   };
 
   return (
-
-
-
     <group ref={refs.groupRef} onClick={handleClick}>
       {/* Bubble */}
       <mesh ref={refs.bubbleMeshRef}>
         <sphereGeometry args={[radius, 64, 64]} />
-        <meshPhysicalMaterial
+        {/* <meshPhysicalMaterial
           transparent
           opacity={0.14}
           roughness={0.7}
@@ -54,6 +52,22 @@ const FloatBubble = ({
           thickness={0.6}
           ior={1.8}
           clearcoat={1}
+        /> */}
+
+        <meshPhysicalMaterial
+          transparent
+          opacity={0.14}
+          // 🫧 bubble physics
+          transmission={1}
+          thickness={0.6}
+          ior={1.45}
+          // ✨ shine & glow
+          roughness={0.08}
+          metalness={0}
+          clearcoat={1}
+          clearcoatRoughness={0.12}
+          envMapIntensity={1.4}
+          color="#e8f6ff"
         />
       </mesh>
 
@@ -62,7 +76,6 @@ const FloatBubble = ({
         <FeatherRotate id={id} resetSignal={resetSignal} />
       </group>
     </group>
-
   );
 };
 
