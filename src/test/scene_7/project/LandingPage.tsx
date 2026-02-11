@@ -48,3 +48,11 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
+
+
+/*
+1. GSAP timeline
+2. Scroll Trigger
+
+**/
