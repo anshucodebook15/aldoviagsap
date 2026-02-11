@@ -6,46 +6,51 @@ import { PreloadVideo } from "./hooks/PreloadVideos";
 import { PreloadImage } from "./hooks/PreloadImages";
 
 const AssetLoader = () => {
-    const { setReady, setAssets } = useLoader();
+  const { setReady, setAssets } = useLoader();
 
-    useEffect(() => {
-        const load = async () => {
-            try {
-                // 1️⃣ Preload GLTFs (cache)
-                PreloadModels();
+  useEffect(() => {
+    const load = async () => {
+      try {
+        // 1️⃣ Preload GLTFs (cache)
+        PreloadModels();
 
-                // 2️⃣ Preload videos
-                const [heroVideo] = await Promise.all([
-                    PreloadVideo("/assets/video/swarn.webm"),
-                ]);
+        // 2️⃣ Preload videos
+        const [heroVideo] = await Promise.all([
+          PreloadVideo("/assets/video/swarn.webm"),
+        ]);
 
-                // 3️⃣ Preload images
-                const [logoImage] = await Promise.all([
-                    PreloadImage("/assets/logo/aldovialogo.svg"),
-                ]);
+        const [SwanVideo] = await Promise.all([
+          PreloadVideo("/assets/video/swanflight.webm"),
+        ]);
 
-                // 4️⃣ Store assets centrally
-                setAssets({
-                    videos: {
-                        hero: heroVideo,
-                    },
-                    images: {
-                        logo: logoImage,
-                    },
-                });
+        // 3️⃣ Preload images
+        const [logoImage] = await Promise.all([
+          PreloadImage("/assets/logo/aldovialogo.svg"),
+        ]);
 
-                // ✅ Everything ready
-                setReady(true);
-            } catch (err) {
-                console.error("Asset preload failed:", err);
-                setReady(true); // fail-open
-            }
-        };
+        // 4️⃣ Store assets centrally
+        setAssets({
+          videos: {
+            hero: heroVideo,
+            swan: SwanVideo,
+          },
+          images: {
+            logo: logoImage,
+          },
+        });
 
-        load();
-    }, []);
+        // ✅ Everything ready
+        setReady(true);
+      } catch (err) {
+        console.error("Asset preload failed:", err);
+        setReady(true); // fail-open
+      }
+    };
 
-    return null;
+    load();
+  }, []);
+
+  return null;
 };
 
 export default AssetLoader;

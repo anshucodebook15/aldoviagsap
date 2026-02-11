@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 type Props = {
@@ -12,28 +12,63 @@ const SwanInteraction = ({ masterTl }: Props) => {
   const [stage, setStage] = useState<0 | 1 | 2>(0);
   const isPlaying = useRef(false);
 
-  useLayoutEffect(() => {
-    if (!masterTl.current || !containerRef.current) return;
+  // useEffect(() => {
+  //   if (!masterTl.current || !containerRef.current) return;
 
-    gsap.set(containerRef.current, { autoAlpha: 0 });
+  //   gsap.set(containerRef.current, { autoAlpha: 0 });
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        // pause master after swan reveal
-        masterTl.current?.pause();
-      },
+  //   const tl = gsap.timeline({
+  //     onComplete: () => {
+  //       // pause master after swan reveal
+  //       masterTl.current?.pause();
+  //     },
+  //   });
+
+  //   tl.to(containerRef.current, {
+  //     autoAlpha: 1,
+  //     duration: 1.2,
+  //     ease: "power2.out",
+  //   });
+
+  //   // 🔖 label this clearly
+  //   tl.add("swan-visible");
+
+  //   masterTl.current.add(tl, "menu-end");
+  // }, []);
+
+  useEffect(() => {
+    if (!masterTl?.current || !containerRef.current) return;
+
+    const swanTl = gsap.timeline();
+
+    // Initial state (hidden)
+    gsap.set(containerRef.current, {
+      autoAlpha: 0,
+      y: 40,
+      scale: 0.95,
     });
 
-    tl.to(containerRef.current, {
-      autoAlpha: 1,
-      duration: 1.2,
-      ease: "power2.out",
-    });
+    swanTl
+      // Fade + lift in
+      .to(containerRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 1.2,
+        ease: "power3.out",
+      })
 
-    // 🔖 label this clearly
-    tl.add("swan-visible");
+      // Optional subtle float
+      .to(containerRef.current, {
+        y: "-=10",
+        duration: 2,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+      });
 
-    masterTl.current.add(tl, "menu-end");
+    // 🔥 Add AFTER Menu Frame
+    masterTl.current.add(swanTl, ">");
   }, []);
 
   /* ---------------- VIDEO INITIAL STATE ---------------- */
@@ -114,9 +149,9 @@ const SwanInteraction = ({ masterTl }: Props) => {
       onClick={handleClick}
       className="
         relative
+        overflow-hidden
         w-screen
         h-screen
-        overflow-hidden
         flex
         items-center
         justify-center

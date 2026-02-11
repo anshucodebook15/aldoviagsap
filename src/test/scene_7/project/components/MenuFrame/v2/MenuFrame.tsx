@@ -404,7 +404,9 @@ const MenuFrame = ({ masterTl }: any) => {
       // 🔥 Add AFTER logo reveal ends + 2 sec
       // masterTl.current.add(menuTl, "logo-reveal-end+=1");
 
-      masterTl.current.add(menuTl, "logo-reveal-end+5");
+      // masterTl.current.add(menuTl, "logo-reveal-end+5");
+
+      masterTl.current.add(menuTl, ">");
     }, frameRef);
 
     return () => ctx.revert();

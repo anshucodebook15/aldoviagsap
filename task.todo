@@ -50,3 +50,228 @@ https://chatgpt.com/share/6984451f-a5e8-8007-83aa-8e221f69e3fb
 
 
 
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+Good question 🔥
+This is the **core concept** you must master for cinematic GSAP architecture.
+
+You have multiple sections:
+
+* Hero Video
+* Logo Reveal
+* Menu Frame
+* (Later Swan, Bubble, etc.)
+
+And you want strict order control.
+
+---
+
+# 🎯 The Correct Way To Control Order
+
+There are only **3 reliable ways** to control GSAP timeline order:
+
+---
+
+# ✅ METHOD 1 (BEST) → Use `">"` chaining
+
+This is the cleanest and most professional way.
+
+It means:
+
+> “Start this after the previous animation ends.”
+
+---
+
+## 🔥 Example – Your Exact Case
+
+### 🧩 In your parent (where masterTl is created)
+
+```ts
+const masterTl = useRef(
+  gsap.timeline({ paused: false })
+);
+```
+
+---
+
+### 1️⃣ Hero
+
+```ts
+masterTl.current.add(heroTl);
+```
+
+---
+
+### 2️⃣ Logo Reveal
+
+```ts
+masterTl.current.add(logoTl, ">");
+```
+
+---
+
+### 3️⃣ Menu Frame
+
+```ts
+masterTl.current.add(menuTl, ">");
+```
+
+---
+
+### What `">"` means
+
+It literally means:
+
+```
+Place this at the END of the previous animation.
+```
+
+So order becomes:
+
+```
+Hero
+  ↓
+Logo
+  ↓
+Menu
+```
+
+No labels needed.
+No guessing.
+No race conditions.
+
+---
+
+# ✅ METHOD 2 → Use Labels (When You Need Control)
+
+Use labels only if:
+
+* You need delays
+* You need branching
+* You need mid-timeline inserts
+
+Example:
+
+```ts
+masterTl.add(heroTl);
+masterTl.addLabel("after-hero", ">");
+masterTl.add(logoTl, "after-hero");
+masterTl.add(menuTl, "logo-end+=1");
+```
+
+⚠️ But labels are error-prone if placed incorrectly (like your earlier issue).
+
+---
+
+# ✅ METHOD 3 → Absolute Time (Not Recommended for You)
+
+```ts
+masterTl.add(heroTl, 0);
+masterTl.add(logoTl, 8);
+masterTl.add(menuTl, 12);
+```
+
+Only good for fixed duration projects.
+Not flexible.
+
+---
+
+# 🧠 Why Your Sequence Was Breaking
+
+Because:
+
+```ts
+masterTl.current.addLabel("after-hero");
+```
+
+Without specifying position defaults to time 0.
+
+So Logo started at time 0 instead of after Hero.
+
+---
+
+# 🏗 BEST STRUCTURE FOR YOUR PROJECT
+
+Since you're building a cinematic landing page:
+
+Create timelines inside each component
+But **only add them sequentially using `">"`**
+
+---
+
+## 🧩 HERO COMPONENT
+
+```ts
+masterTl.current.add(heroTl);
+```
+
+---
+
+## 🧩 LOGO COMPONENT
+
+```ts
+masterTl.current.add(logoTl, ">");
+```
+
+---
+
+## 🧩 MENU COMPONENT
+
+```ts
+masterTl.current.add(menuTl, ">");
+```
+
+---
+
+# 💡 Important Rule
+
+Never mix:
+
+* Labels
+* Absolute times
+* and `">"`
+
+In the same sequence unless you really understand timing.
+
+For your use case → stick to `">"`.
+
+---
+
+# 🎬 Final Visual Timeline
+
+```
+Master Timeline
+    ├── Hero (full video duration)
+    ├── Logo Reveal
+    └── Menu Frame
+```
+
+Guaranteed order.
+Clean architecture.
+No overlap bugs.
+
+---
+
+If you want next, I can:
+
+* Refactor your exact 3 useEffects into a perfect sequence setup
+* Or design a cinematic flow including Swan → Logo morph → Menu
+
+Tell me what level you want to take this 🔥

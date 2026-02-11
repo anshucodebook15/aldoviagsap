@@ -1,4 +1,4 @@
-import {useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import MenuFrame from "./components/MenuFrame/v2/MenuFrame";
 // import BubbleFeather_Interaction from "./Sections/BubbleFeathersInteraction/v7/BubbleFeather_Interaction";
@@ -7,6 +7,8 @@ import MenuFrame from "./components/MenuFrame/v2/MenuFrame";
 // import SwanInteraction from "./Sections/SwanInteraction/SwanInteraction";
 import { HeroVideo } from "./Sections/HeroVideo";
 import LogoReveal from "./Sections/LogoReveal/LogoReveal";
+import SwanInteraction from "./Sections/SwanInteraction/v2/SwanInteraction";
+// import SwanInteraction from "./Sections/SwanInteraction/SwanInteraction";
 // import BubbleFeather_Interaction_test from "../test/BubbleFeatherTest";
 // import BubbleFeather_Interaction from "./Sections/BubbleFeathersInteraction/v3/BubbleFeather_Interaction";
 // import SwanInteraction from "./Sections/SwanInteraction/SwanInteraction";
@@ -23,8 +25,6 @@ const Main = () => {
 
   return (
     <div>
-
-
       <div id="landing-page">
         <HeroVideo masterTl={masterTl} />
         <LogoReveal masterTl={masterTl} />
@@ -32,8 +32,8 @@ const Main = () => {
           <MenuFrame masterTl={masterTl} />
         </div>
 
-        {/* <SwanInteraction masterTl={masterTl} />
-        <BubbleFeather_Interaction masterTl={masterTl} /> */}
+        <SwanInteraction masterTl={masterTl} />
+        {/* <BubbleFeather_Interaction masterTl={masterTl} /> */}
 
         {/* Bubble mounts AFTER MenuFrame animation */}
         {/* <BubbleFeather_Interaction_test /> */}
