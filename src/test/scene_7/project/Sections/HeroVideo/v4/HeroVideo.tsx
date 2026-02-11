@@ -80,7 +80,7 @@ const HeroVideo = ({ masterTl }: any) => {
   return (
     <section
       ref={sectionRef}
-      className="w-screen h-screen fixed inset-0 z-10 bg-black"
+      className="w-screen h-screen fixed inset-0 bg-black"
     />
   );
 };

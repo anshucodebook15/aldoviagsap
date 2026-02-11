@@ -5,7 +5,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import CameraFocusController from "../../../components/CameraFocusController/CameraFocusController";
 import FloatBubble from "../../../components/FloatBubble/FloatBubble";
-import FeatherDragDrop from "../../../../test/FeatherDrag";
+// import FeatherDragDrop from "../../../../test/FeatherDrag";
 
 gsap.registerPlugin(useGSAP);
 
@@ -17,11 +17,11 @@ const BubbleFeather_Interaction = ({ masterTl }: any) => {
   const [resetSignal, setResetSignal] = useState(0);
 
   const bubbles = [
-    { id: 1, position: [-12, 0, -14] },
-    { id: 2, position: [0, 2, -10] },
-    { id: 3, position: [11, -2, -10] }, // center hero
-    { id: 4, position: [-6, -8, -9] },
-    { id: 5, position: [4, -10, -12] },
+    { id: 1, position: [-12, 0, -14], delay: 0, variant: 1 },
+    { id: 2, position: [0, 2, -10], delay: 1.2, variant: 2 },
+    { id: 3, position: [11, -2, -10], delay: 0.6, variant: 3 }, // center hero
+    { id: 4, position: [-6, -8, -9], delay: 0.4, variant: 4 },
+    { id: 5, position: [4, -10, -12], delay: 0.2, variant: 5 },
   ];
 
   useLayoutEffect(() => {
@@ -140,10 +140,10 @@ const BubbleFeather_Interaction = ({ masterTl }: any) => {
               enabled={!!focusTarget}
             />
 
-            <FeatherDragDrop />
+            {/* <FeatherDragDrop /> */}
 
             {/* 🪶 Drop your feathers here */}
-            {/* {bubbles.map((b) => (
+            {bubbles.map((b) => (
               <FloatBubble
                 key={b.id}
                 id={b.id}
@@ -151,11 +151,9 @@ const BubbleFeather_Interaction = ({ masterTl }: any) => {
                 radius={5}
                 setActiveId={(id) => setActiveId(String(id))}
                 setFocusTarget={(v) => setFocusTarget(v)}
-                // setActiveId={(id) => setActiveId(String(id))}
-                // setFocusTarget={setFocusTarget} // 👈 ADD THIS
                 resetSignal={resetSignal} // 👈 NEW
               />
-            ))} */}
+            ))}
 
             {/* <OrbitControls
             enableZoom={false}

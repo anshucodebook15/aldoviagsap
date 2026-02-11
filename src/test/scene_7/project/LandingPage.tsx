@@ -1,29 +1,21 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-// import MenuFrame from "./components/MenuFrame/MenuFrame";
-// import { HeroVideo } from "./Sections/HeroVideo";
-// import LogoReveal from "./Sections/LogoReveal/v2/LogoReveal";
 import MenuFrame from "./components/MenuFrame/v2/MenuFrame";
-import BubbleFeather_Interaction from "./Sections/BubbleFeathersInteraction/v3/BubbleFeather_Interaction";
+// import BubbleFeather_Interaction from "./Sections/BubbleFeathersInteraction/v3/BubbleFeather_Interaction";
 import { HeroVideo } from "./Sections/HeroVideo";
 import LogoReveal from "./Sections/LogoReveal/LogoReveal";
-// import BubbleFeather_Interaction from "./Sections/BubbleFeathersInteraction/BubbleFeather_Interaction";
-// import { HeroVideo } from "./Sections/HeroVideo";
+import SwanInteraction from "./Sections/SwanInteraction/SwanInteraction";
+// import BubbleFeather_Interaction_test from "../test/BubbleFeatherTest";
+// import BubbleFeather_Interaction from "./Sections/BubbleFeathersInteraction/v3/BubbleFeather_Interaction";
+// import SwanInteraction from "./Sections/SwanInteraction/SwanInteraction";
 
 const Main = () => {
   const masterTl = useRef<gsap.core.Timeline | null>(null);
-  // const [showBubbles, setShowBubbles] = useState(false);
+
   useLayoutEffect(() => {
     masterTl.current = gsap.timeline({
       paused: false,
       defaults: { ease: "power2.inOut" },
-
-      // onComplete: () => {
-
-      //   console.log("Works");
-
-      //   setShowBubbles(true);
-      // },
     });
   }, []);
 
@@ -36,15 +28,11 @@ const Main = () => {
       <div id="landing-page">
         <HeroVideo masterTl={masterTl} />
         <LogoReveal masterTl={masterTl} />
-
-        
-        <BubbleFeather_Interaction masterTl={masterTl} />
+        <SwanInteraction masterTl={masterTl} />
+        {/* <BubbleFeather_Interaction masterTl={masterTl} /> */}
 
         {/* Bubble mounts AFTER MenuFrame animation */}
-        {/* {showBubbles && <BubbleFeather_Interaction />} */}
-        {/* <SwanInteraction />
-                <BubbleFeatherDrops />
-                <Reflection /> */}
+        {/* <BubbleFeather_Interaction_test /> */}
       </div>
     </div>
   );

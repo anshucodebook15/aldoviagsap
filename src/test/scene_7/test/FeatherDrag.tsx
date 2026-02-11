@@ -1,13 +1,15 @@
 import { useLayoutEffect, useRef } from "react";
+import type { ReactNode } from "react";
 import * as THREE from "three";
-import { GroupProps } from "@react-three/fiber";
+// import { GroupProps } from "@react-three/fiber";
 import gsap from "gsap";
 import { useGLTF } from "@react-three/drei";
 
-type FeatherDropProps = GroupProps & {
+type FeatherDropProps = & {
+  children?: ReactNode;
   startY?: number;
-  groundY?: number;
   duration?: number;
+  groundY?: number;
 };
 
 export const FeatherDrop = ({

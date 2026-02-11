@@ -32,7 +32,6 @@ const FloatBubble = ({
   const handleClick = () => {
     const worldPos = new THREE.Vector3();
     refs.groupRef.current.getWorldPosition(worldPos);
-
     setActiveId(id);
     setFocusTarget(worldPos);
     burstBubble();
