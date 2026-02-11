@@ -8,6 +8,7 @@ import MenuFrame from "./components/MenuFrame/v2/MenuFrame";
 import { HeroVideo } from "./Sections/HeroVideo";
 import LogoReveal from "./Sections/LogoReveal/LogoReveal";
 import SwanInteraction from "./Sections/SwanInteraction/v2/SwanInteraction";
+import BubbleFeather_Interaction from "./Sections/BubbleFeathersInteraction/v7/BubbleFeather_Interaction";
 // import SwanInteraction from "./Sections/SwanInteraction/SwanInteraction";
 // import BubbleFeather_Interaction_test from "../test/BubbleFeatherTest";
 // import BubbleFeather_Interaction from "./Sections/BubbleFeathersInteraction/v3/BubbleFeather_Interaction";
@@ -33,7 +34,7 @@ const Main = () => {
         </div>
 
         <SwanInteraction masterTl={masterTl} />
-        {/* <BubbleFeather_Interaction masterTl={masterTl} /> */}
+        <BubbleFeather_Interaction masterTl={masterTl} />
 
         {/* Bubble mounts AFTER MenuFrame animation */}
         {/* <BubbleFeather_Interaction_test /> */}
