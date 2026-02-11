@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useAssets } from "../../../../../../app/hooks/useAssets";
 
@@ -255,32 +255,102 @@ const MenuFrame = ({ masterTl }: any) => {
   //   return () => ctx.revert();
   // }, []);
 
-  useLayoutEffect(() => {
+  // useEffect(() => {
+  //   if (!masterTl?.current || !frameRef.current) return;
+
+  //   const ctx = gsap.context(() => {
+  //     // Initial hidden states
+  //     gsap.set(".logo-top", {
+  //       autoAlpha: 0,
+  //       y: -12,
+  //     });
+
+  //     gsap.set(".logo-image", {
+  //       autoAlpha: 0,
+  //       y: 6,
+  //       scale: 0.98,
+  //     });
+
+  //     gsap.set(".menu-item", {
+  //       autoAlpha: 0,
+  //       y: 10,
+  //     });
+
+  //     masterTl
+  //       .current! // ⏱ 2 SECOND DELAY AFTER LOGO REVEAL
+  //       .add("menu-start", "logo-reveal-end+=2")
+
+  //       // Menu logo enters
+  //       .to(
+  //         ".logo-top",
+  //         {
+  //           autoAlpha: 1,
+  //           y: 0,
+  //           duration: 0.45,
+  //           ease: "power2.out",
+  //         },
+  //         "menu-start",
+  //       )
+
+  //       // Logo swap
+  //       .to(
+  //         ".logo-text",
+  //         {
+  //           autoAlpha: 0,
+  //           y: -6,
+  //           filter: "blur(6px)",
+  //           duration: 0.35,
+  //           ease: "power2.out",
+  //         },
+  //         "menu-start+=0.15",
+  //       )
+
+  //       .to(
+  //         ".logo-image",
+  //         {
+  //           autoAlpha: 1,
+  //           y: 0,
+  //           scale: 1,
+  //           filter: "blur(0px)",
+  //           duration: 0.45,
+  //           ease: "power2.out",
+  //         },
+  //         "menu-start+=0.25",
+  //       )
+
+  //       // Menu items
+  //       .to(
+  //         ".menu-item",
+  //         {
+  //           autoAlpha: 1,
+  //           y: 0,
+  //           stagger: 0.08,
+  //           duration: 0.4,
+  //           ease: "power2.out",
+  //         },
+  //         "menu-start+=0.45",
+  //       );
+
+  //     masterTl.current!.add("menu-end");
+  //   }, frameRef);
+
+  //   return () => ctx.revert();
+  // }, []);
+
+  useEffect(() => {
     if (!masterTl?.current || !frameRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Initial hidden states
-      gsap.set(".logo-top", {
-        autoAlpha: 0,
-        y: -12,
-      });
+      const menuTl = gsap.timeline();
 
-      gsap.set(".logo-image", {
-        autoAlpha: 0,
-        y: 6,
-        scale: 0.98,
-      });
+      // Initial states
+      gsap.set(".logo-top", { autoAlpha: 0, y: -12 });
+      gsap.set(".logo-image", { autoAlpha: 0, y: 6, scale: 0.98 });
+      gsap.set(".menu-item", { autoAlpha: 0, y: 10 });
 
-      gsap.set(".menu-item", {
-        autoAlpha: 0,
-        y: 10,
-      });
+      menuTl
+        .add("menu-start")
 
-      masterTl
-        .current!// ⏱ 2 SECOND DELAY AFTER LOGO REVEAL
-        .add("menu-start", "logo-reveal-end+=2")
-
-        // Menu logo enters
         .to(
           ".logo-top",
           {
@@ -292,7 +362,6 @@ const MenuFrame = ({ masterTl }: any) => {
           "menu-start",
         )
 
-        // Logo swap
         .to(
           ".logo-text",
           {
@@ -318,7 +387,6 @@ const MenuFrame = ({ masterTl }: any) => {
           "menu-start+=0.25",
         )
 
-        // Menu items
         .to(
           ".menu-item",
           {
@@ -329,9 +397,14 @@ const MenuFrame = ({ masterTl }: any) => {
             ease: "power2.out",
           },
           "menu-start+=0.45",
-        );
+        )
 
-      masterTl.current!.add("menu-end");
+        .add("menu-end");
+
+      // 🔥 Add AFTER logo reveal ends + 2 sec
+      // masterTl.current.add(menuTl, "logo-reveal-end+=1");
+
+      masterTl.current.add(menuTl, "logo-reveal-end+5");
     }, frameRef);
 
     return () => ctx.revert();

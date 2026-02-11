@@ -73,8 +73,11 @@ const HeroVideo = ({ masterTl }: any) => {
     });
 
     // 🔑 Handoff WHILE swan is still visible
-    masterTl.current.add(tl, "hero");
-    masterTl.current.addLabel("after-hero");
+    // masterTl.current.add(tl, "hero");
+    // masterTl.current.addLabel("after-hero");
+
+    masterTl.current.add(tl); // add hero at end
+    masterTl.current.addLabel("after-hero", ">");
   }, [assets]);
 
   return (

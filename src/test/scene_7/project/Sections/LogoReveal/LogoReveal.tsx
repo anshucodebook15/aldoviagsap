@@ -5,6 +5,44 @@ const LogoReveal = ({ masterTl }: any) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
 
+  // useEffect(() => {
+  //   if (!masterTl?.current || !sectionRef.current || !logoRef.current) return;
+
+  //   const tl = gsap.timeline();
+
+  //   gsap.set(sectionRef.current, { autoAlpha: 0 });
+
+  //   tl.to(sectionRef.current, {
+  //     autoAlpha: 1,
+  //     duration: 0.6,
+  //   });
+
+  //   tl.fromTo(
+  //     logoRef.current,
+  //     { scale: 0.85, autoAlpha: 0 },
+  //     {
+  //       scale: 1,
+  //       autoAlpha: 1,
+  //       duration: 1.2,
+  //       ease: "power3.out",
+  //     },
+  //   );
+
+  //   tl.to({}, { duration: 1.5 });
+
+  //   tl.to(sectionRef.current, {
+  //     autoAlpha: 0,
+  //     duration: 0.8,
+  //     ease: "power2.inOut",
+  //   });
+
+  //   // 🔑 END MARKER (single source of truth)
+  //   tl.add("logo-reveal-end");
+
+  //   masterTl.current.add(tl, "after-hero");
+  // }, []);
+
+
   useEffect(() => {
     if (!masterTl?.current || !sectionRef.current || !logoRef.current) return;
 
@@ -25,7 +63,7 @@ const LogoReveal = ({ masterTl }: any) => {
         autoAlpha: 1,
         duration: 1.2,
         ease: "power3.out",
-      },
+      }
     );
 
     tl.to({}, { duration: 1.5 });
@@ -36,11 +74,16 @@ const LogoReveal = ({ masterTl }: any) => {
       ease: "power2.inOut",
     });
 
-    // 🔑 END MARKER (single source of truth)
+    // 🔑 GUARANTEED END MARKER
     tl.add("logo-reveal-end");
 
     masterTl.current.add(tl, "after-hero");
+
+
+
+
   }, []);
+
 
   return (
     <div

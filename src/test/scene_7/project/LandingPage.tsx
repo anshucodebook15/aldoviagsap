@@ -1,6 +1,6 @@
-import { useLayoutEffect, useRef } from "react";
+import {useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-// import MenuFrame from "./components/MenuFrame/v2/MenuFrame";
+import MenuFrame from "./components/MenuFrame/v2/MenuFrame";
 // import BubbleFeather_Interaction from "./Sections/BubbleFeathersInteraction/v7/BubbleFeather_Interaction";
 // import { HeroVideo } from "./Sections/HeroVideo";
 // import LogoReveal from "./Sections/LogoReveal/LogoReveal";
@@ -23,13 +23,15 @@ const Main = () => {
 
   return (
     <div>
-      <div className="fixed top-0 left-0 right-0 z-30 pointer-events-none">
-        {/* <MenuFrame masterTl={masterTl} /> */}
-      </div>
+
 
       <div id="landing-page">
         <HeroVideo masterTl={masterTl} />
         <LogoReveal masterTl={masterTl} />
+        <div className="fixed top-0 left-0 right-0 z-30 pointer-events-none">
+          <MenuFrame masterTl={masterTl} />
+        </div>
+
         {/* <SwanInteraction masterTl={masterTl} />
         <BubbleFeather_Interaction masterTl={masterTl} /> */}
 
